@@ -9,7 +9,7 @@ public static class NullableMappingBuilder
 {
     public static INewInstanceMapping? TryBuildMapping(MappingBuilderContext ctx)
     {
-        if (!TryBuildNonNullableMappingKey(ctx, out var mappingKey))
+        if (TryBuildNonNullableMappingKey(ctx, out var mappingKey))
             return null;
 
         var delegateMapping = ctx.BuildMapping(mappingKey, MappingBuildingOptions.KeepUserSymbol | MappingBuildingOptions.EmbeddedMapping);
