@@ -52,13 +52,13 @@ public static class NullableMappingBuilder
         return mapping switch
         {
             NewInstanceMethodMapping methodMapping => new NullDelegateMethodMapping(
-                ctx.Source,
                 ctx.Target,
+                ctx.Source,
                 methodMapping,
                 nullFallback,
                 ctx.Configuration.SupportedFeatures.NullableAttributes
             ),
-            _ => new NullDelegateMapping(ctx.Source, ctx.Target, mapping, nullFallback),
+            _ => throw new InvalidOperationException(),
         };
     }
 }
