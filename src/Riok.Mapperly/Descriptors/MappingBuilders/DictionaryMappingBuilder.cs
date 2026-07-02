@@ -142,6 +142,9 @@ public static class DictionaryMappingBuilder
         if (BuildKeyValueMapping(ctx) is not var (keyMapping, valueMapping))
             return null;
 
+        if (keyMapping == valueMapping)
+            return null;
+
         return new ForEachSetDictionaryExistingTargetMapping(
             ctx.CollectionInfos,
             keyMapping,
