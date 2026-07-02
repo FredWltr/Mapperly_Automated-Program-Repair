@@ -25,14 +25,6 @@ public static class ExplicitCastMappingBuilder
         if (SymbolEqualityComparer.Default.Equals(ctx.Source, ctx.Compilation.ObjectType))
             return null;
 
-        var conversion = ctx.Compilation.ClassifyConversion(ctx.Source, ctx.Target);
-
-        // only allow user defined explicit reference conversions
-        // since other may return an extra runtime type check or may throw InvalidCastException.
-        // see c# language specification section 10.3.5 explicit reference conversions
-        // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/conversions#1035-explicit-reference-conversions
-        return conversion.IsExplicit && (!conversion.IsReference || conversion.IsUserDefined)
-            ? new CastMapping(ctx.Source, ctx.Target)
-            : null;
+        return new CastMapping(ctx.Source, ctx.Target);
     }
 }
