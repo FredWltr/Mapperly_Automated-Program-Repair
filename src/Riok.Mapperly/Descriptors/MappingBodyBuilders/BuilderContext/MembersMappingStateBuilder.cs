@@ -12,6 +12,9 @@ internal static class MembersMappingStateBuilder
 {
     public static MembersMappingState Build(MappingBuilderContext ctx, IMapping mapping)
     {
+        ArgumentNullException.ThrowIfNull(ctx);
+        ArgumentNullException.ThrowIfNull(mapping);
+
         // build configurations
         // duplicated configurations are filtered inside the MapValue configurations
         // if a MapProperty configuration references a target member which is already configured
@@ -48,16 +51,12 @@ internal static class MembersMappingStateBuilder
         targetMembers.RemoveRange(ignoredTargetMemberNames);
 
         var targetMemberCaseMapping = targetMembers
-            .Keys.GroupBy(x => x, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(x => x.Key, x => x.First(), StringComparer.OrdinalIgnoreCase);
+            .Keys.GroupBy(x => x, StringComparer.Ordinal)
+            .Where(x => x is not null)
+            .ToDictionary(x => x.Key, x => x.Single(), StringComparer.Ordinal);
         var unmappedTargetMemberNames = targetMembers.Keys.ToHashSet();
 
-        // Only expose additional parameters as source members when:
-        // 1. The scope is root (this mapping declared the parameters), or
-        // 2. We're in an expression context (inline within the same method scope).
-        // For separate auto-generated method mappings, inherited parent parameters
-        // must not shadow source type members.
-        var parameterScope = ctx.ParameterScope.IsRoot || ctx.IsExpression ? ctx.ParameterScope : ParameterScope.Empty;
+        var parameterScope = ctx.ParameterScope ?? ParameterScope.Empty;
 
         return new MembersMappingState(
             unmappedSourceMemberNames,
