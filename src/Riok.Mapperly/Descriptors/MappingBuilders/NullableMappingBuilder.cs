@@ -40,9 +40,10 @@ public static class NullableMappingBuilder
         if (sourceIsNullable && !targetIsNullable)
         {
             ctx.ReportDiagnostic(DiagnosticDescriptors.NullableSourceTypeToNonNullableTargetType, ctx.Source, ctx.Target);
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     private static INewInstanceMapping BuildNullDelegateMapping(MappingBuilderContext ctx, INewInstanceMapping mapping)
