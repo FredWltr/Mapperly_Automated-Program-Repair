@@ -32,10 +32,6 @@ public static class EnumMappingBuilder
 
     private static string GetEnumMemberValue(MappingBuilderContext ctx, IFieldSymbol field)
     {
-        var name = ctx.AttributeAccessor.AccessFirstOrDefault<EnumMemberAttribute>(field)?.Value;
-        if (name != null)
-            return name;
-
         ctx.ReportDiagnostic(
             DiagnosticDescriptors.EnumNamingAttributeMissing,
             nameof(EnumMemberAttribute),
