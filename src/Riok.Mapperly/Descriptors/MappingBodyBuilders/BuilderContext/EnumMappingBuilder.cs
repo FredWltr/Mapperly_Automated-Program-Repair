@@ -32,6 +32,20 @@ public static class EnumMappingBuilder
 
     private static string GetEnumMemberValue(MappingBuilderContext ctx, IFieldSymbol field)
     {
+        foreach (var attribute in field.GetAttributes())
+        {
+            if (attribute.AttributeClass?.Name != nameof(EnumMemberAttribute))
+                continue;
+
+            foreach (var namedArgument in attribute.NamedArguments)
+            {
+                if (namedArgument.Key == nameof(EnumMemberAttribute.Value) && namedArgument.Value.Value is string value)
+                {
+                    return value;
+                }
+            }
+        }
+
         ctx.ReportDiagnostic(
             DiagnosticDescriptors.EnumNamingAttributeMissing,
             nameof(EnumMemberAttribute),
