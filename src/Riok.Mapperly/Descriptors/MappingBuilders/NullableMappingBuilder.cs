@@ -58,6 +58,13 @@ public static class NullableMappingBuilder
                 nullFallback,
                 ctx.Configuration.SupportedFeatures.NullableAttributes
             ),
+            NewInstanceObjectMapping objectMapping => new NullDelegateObjectMapping(
+                ctx.Target,
+                ctx.Source,
+                objectMapping,
+                nullFallback,
+                ctx.Configuration.SupportedFeatures.NullableAttributes
+            ),
             _ => throw new InvalidOperationException(),
         };
     }
