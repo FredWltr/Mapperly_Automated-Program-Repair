@@ -142,7 +142,7 @@ public static class DictionaryMappingBuilder
         if (BuildKeyValueMapping(ctx) is not var (keyMapping, valueMapping))
             return null;
 
-        if (keyMapping == valueMapping)
+        if (keyMapping == null || valueMapping == null)
             return null;
 
         return new ForEachSetDictionaryExistingTargetMapping(
