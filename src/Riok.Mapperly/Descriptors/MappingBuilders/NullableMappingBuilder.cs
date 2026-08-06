@@ -51,7 +51,7 @@ public static class NullableMappingBuilder
 
         return mapping switch
         {
-            NewInstanceMethodMapping methodMapping => new NullDelegateMethodMapping(
+            INewInstanceMethodMapping methodMapping => new NullDelegateMethodMapping(
                 ctx.Target,
                 ctx.Source,
                 methodMapping,
