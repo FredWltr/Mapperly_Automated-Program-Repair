@@ -13,6 +13,10 @@ public static class ExplicitCastMappingBuilder
         if (!ctx.IsConversionEnabled(MappingConversionType.ExplicitCast))
             return null;
 
+        var conversion = ctx.Compilation.ClassifyConversion(ctx.Source, ctx.Target);
+        if (!conversion.IsExplicit)
+            return null;
+
         if (ctx.Configuration.UseDeepCloning && !ctx.Source.IsImmutable() && !ctx.Target.IsImmutable())
             return null;
 
