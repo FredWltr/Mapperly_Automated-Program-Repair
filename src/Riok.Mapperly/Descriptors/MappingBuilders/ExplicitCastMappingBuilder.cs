@@ -25,6 +25,9 @@ public static class ExplicitCastMappingBuilder
         if (SymbolEqualityComparer.Default.Equals(ctx.Source, ctx.Compilation.ObjectType))
             return null;
 
+        if (!ctx.Compilation.ClassifyConversion(ctx.Source, ctx.Target).Exists)
+            return null;
+
         return new CastMapping(ctx.Source, ctx.Target);
     }
 }
