@@ -63,11 +63,11 @@ public static class DictionaryMappingBuilder
         if (!ctx.InstanceConstructors.TryBuildObjectFactory(ctx.Source, ctx.Target, out var constructor))
         {
             collectionInfos = collectionInfos with { Source = BuildCollectionTypeForSourceIDictionary(ctx) };
-            var existingMapping = ctx.BuildDelegatedMapping(collectionInfos.Source.Type, ctx.Source);
+            var existingMapping = ctx.BuildDelegatedMapping(ctx.Source, collectionInfos.Source.Type);
             if (existingMapping != null)
                 return existingMapping;
 
-            ctx.InstanceConstructors.TryBuildObjectFactory(collectionInfos.Source.Type, ctx.Source, out constructor);
+            ctx.InstanceConstructors.TryBuildObjectFactory(ctx.Source, collectionInfos.Source.Type, out constructor);
         }
 
         return new ForEachSetDictionaryMapping(
